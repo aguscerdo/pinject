@@ -59,16 +59,19 @@ def _find_classes_in_module(module):
             module.__bases__ = ()
     except AttributeError:
         pass
-
-    for member_name, member in inspect.getmembers(module):
-        try:
-            if inspect.isclass(member) and not member_name == '__class__':
-                classes.add(member)
-        except NameError:
-            # In Python 3 calling isinstance() on SWIG's global cvar property
-            # raises:
-            #     "NameError: Unknown C global variable"
-            # In that case just continue, otherwise let the Error through.
-            if not member_name == 'cvar':
-                raise
+    
+    try:
+        for member_name, member in inspect.getmembers(module):
+            try:
+                if inspect.isclass(member) and not member_name == '__class__':
+                    classes.add(member)
+            except NameError:
+                # In Python 3 calling isinstance() on SWIG's global cvar property
+                # raises:
+                #     "NameError: Unknown C global variable"
+                # In that case just continue, otherwise let the Error through.
+                if not member_name == 'cvar':
+                    raise
+    except:
+        pass
     return classes
