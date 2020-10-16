@@ -16,7 +16,7 @@
 
 import os
 from setuptools import setup
-import semver
+# import semver
 
 
 def versioning(version: str) -> str:
@@ -27,11 +27,16 @@ def versioning(version: str) -> str:
     X.Y.Z -> X.Y.devZ
 
     """
-    sem_ver = semver.parse(version)
+    split = version.split('.')
+    major = int(split[0])
+    minor = int(split[1])
+    patch = split[2]
+                
+#     sem_ver = semver.parse(version)
 
-    major = sem_ver['major']
-    minor = sem_ver['minor']
-    patch = str(sem_ver['patch'])
+#     major = sem_ver['major']
+#     minor = sem_ver['minor']
+#     patch = str(sem_ver['patch'])
 
     if minor % 2:
         patch = 'dev' + patch
